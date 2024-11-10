@@ -64,3 +64,13 @@ SQLite is a relational database management system contained in a small C library
 Unlike traditional data warehouses that require complex setups, SQLite databases are stored in a single  file, simplifying data management and making it accessible without the need for running and configuring a separate database server.
 
 We will use SQLite to simulate the design and implementation of a data warehouse and then use ETL to load our data into the system. 
+
+### Dates in SQLite
+
+In most databases, dates are stored in dedicated date or datetime data types,
+allowing for optimized date handling and calculations. However, SQLite stores dates as text,
+typically in a string format, which limits some of its date manipulation capabilities.
+
+A good approach to handling dates in SQLite for data warehousing is to store dates in ISO 8601 format (YYYY-MM-DD). 
+This format allows SQLite to recognize and compare dates accurately as strings 
+and is compatible with SQLite's date and time functions for filtering, sorting, and grouping.
