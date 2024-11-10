@@ -42,7 +42,7 @@ Column names are all lowercase with underscores.
 
 | column_name     | data_type | description                     |
 |-----------------|-----------|---------------------------------|
-| transaction_id  | INTEGER   | Primary key                     |
+| sale_id         | INTEGER   | Primary key                     |
 | date            | DATE      | Date of the transaction         |
 | customer_id     | TEXT      | Foreign key to customers        |
 | product_id      | TEXT      | Foreign key to products         |
