@@ -35,35 +35,37 @@ Design Considerations
 
 ## Data Warehouse Schema
 
-### Fact Table: Sales
+In general, we will follow the convention that table names are lowercase and pluralized. 
+Column names are all lowercase with underscores. 
 
-| Column Name   | Data Type | Description                |
-|---------------|-----------|----------------------------|
-| TransactionID | INTEGER   | Primary Key                |
-| Date          | DATE      | Date of the transaction    |
-| CustomerID    | TEXT      | Foreign Key to Customers   |
-| ProductID     | TEXT      | Foreign Key to Products    |
-| Quantity      | INTEGER   | Quantity of items sold     |
-| SalesAmount   | REAL      | Total sales amount         |
+### Fact Table: sales
 
+| column_name     | data_type | description                     |
+|-----------------|-----------|---------------------------------|
+| transaction_id  | INTEGER   | Primary key                     |
+| date            | DATE      | Date of the transaction         |
+| customer_id     | TEXT      | Foreign key to customers        |
+| product_id      | TEXT      | Foreign key to products         |
+| quantity        | INTEGER   | Quantity of items sold          |
+| sales_amount    | REAL      | Total sales amount              |
 
-### Dimension Table: Customers
+### Dimension Table: customers
 
-| Column Name | Data Type | Description                |
-|-------------|-----------|----------------------------|
-| CustomerID  | TEXT      | Primary Key                |
-| Name        | TEXT      | Name of the customer       |
-| Region      | TEXT      | Region where customer resides |
-| JoinDate    | DATE      | Date when the customer joined |
+| column_name | data_type | description                       |
+|-------------|-----------|-----------------------------------|
+| customer_id | TEXT      | Primary key                       |
+| name        | TEXT      | Name of the customer              |
+| region      | TEXT      | Region where customer resides     |
+| join_date   | DATE      | Date when the customer joined     |
 
-### Dimension Table: Products
+### Dimension Table: products
 
-| Column Name | Data Type | Description                |
-|-------------|-----------|----------------------------|
-| ProductID   | TEXT      | Primary Key                |
-| ProductName | TEXT      | Name of the product        |
-| Category    | TEXT      | Category of the product    |
-| UnitPrice   | REAL      | Price per unit of the product |
+| column_name  | data_type | description                      |
+|--------------|-----------|----------------------------------|
+| product_id   | TEXT      | Primary key                      |
+| product_name | TEXT      | Name of the product              |
+| category     | TEXT      | Category of the product          |
+| unit_price   | REAL      | Price per unit of the product    |
 
 A well-designed data warehouse is instrumental in enabling efficient data analysis and business intelligence reporting. 
 We can use SQLite to simulate a data warehouse and gain practical experience in schema design and data management.
