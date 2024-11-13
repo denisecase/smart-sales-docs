@@ -1,6 +1,6 @@
-# Implement the Data Warehouse (Finish Create DW Script)
+# Implement the Data Warehouse (Finish Create DW Script for Initial Columns)
 
-Here we will complete our goal to use SQLite to define and create tables for the  data warehouse. The script will set up the database schema based on your design.
+Here we will complete our goal to use SQLite to define and create tables for a data warehouse. The script will set up the database schema based on your design.
 
 ## Activate .venv 
 
@@ -24,7 +24,7 @@ source .venv/bin/activate
 
 ## Execute the Script
 
-Same as before, use this command to execute the script as you progressively builde it - use the command that works for your operating system. 
+Same as before, use this command to execute the script as you progressively build it - use the command that works for your operating system. 
 
 In Windows / PowerShell
 
@@ -40,7 +40,7 @@ python3 scripts/create_dw.py
 
 ## Complete the Script 
 
-Finish the code to actually create tables, but do not populate them. We will populate our DW in Module 5. 
+Finish the code to actually create tables using the initial columns, but do not populate them. We will populate our DW in Module 5. 
 
 To allow the script to be re-run while we are finalizing it, delete the new database if it exists before each run. 
 
@@ -49,7 +49,7 @@ To allow the script to be re-run while we are finalizing it, delete the new data
 ## Example of DW Create Script
 
 Here is an example of the type of code needed to use as a reference. 
-Your version will need to reflect your additional columns and your schema design. 
+Your final P4 version will also reflect your additional columns and your schema design. 
 
 ```python
 """
