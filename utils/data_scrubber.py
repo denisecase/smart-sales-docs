@@ -1,16 +1,26 @@
-r"""
-scripts/data_scrubber.py
+"""
+utils/data_scrubber.py
 
-Do not run this script directly. 
-Instead, from this module (scripts.data_scrubber)
-import the DataScrubber class. 
+Reusable utility class for performing common data cleaning and 
+preparation tasks on a pandas DataFrame.
 
-Use it to create a DataScrubber object by passing in a DataFrame with your data. 
+This class provides methods for:
+- Checking data consistency
+- Removing duplicates
+- Handling missing values
+- Filtering outliers
+- Renaming and reordering columns
+- Formatting strings
+- Parsing date fields
 
-Then, call the methods, providing arguments as needed to enjoy common, 
-re-usable cleaning and preparation methods. 
+Use this class to perform similar cleaning operations across multiple files.  
+You are not required to use this class, but it shows how we can organize 
+reusable data cleaning logic.
 
-See the associated test script in the tests folder. 
+Example:
+    from utils.data_scrubber import DataScrubber
+    scrubber = DataScrubber(df)
+    df = scrubber.remove_duplicate_records().handle_missing_data(fill_value="N/A")
 
 """
 

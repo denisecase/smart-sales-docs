@@ -1,7 +1,7 @@
 """
-scripts/data_preparation/prepare_products_data.py
+scripts/data_preparation/prepare_products.py
 
-This script reads product data from the data/raw folder, cleans the data, 
+This script reads data from the data/raw folder, cleans the data, 
 and writes the cleaned version to the data/prepared folder.
 
 Tasks:
@@ -10,41 +10,46 @@ Tasks:
 - Remove outliers
 - Ensure consistent formatting
 
------------------------------------
-How to Run:
-1. Open a terminal in the main root project folder.
-2. Activate the local project virtual environment.
-3. Choose the correct commands for your OS to run this script:
-
-Example (Windows/PowerShell) - do NOT include the > prompt:
-> .venv\Scripts\activate
-> py scripts\data_preparation\prepare_products_data.py
-
-Example (Mac/Linux) - do NOT include the $ prompt:
-$ source .venv/bin/activate
-$ python3 scripts/data_preparation/prepare_products_data.py
 """
 
+#####################################
+# Import Modules at the Top
+#####################################
+
+# Import from Python Standard Library
 import pathlib
 import sys
+
+# Import from external packages (requires a virtual environment)
 import pandas as pd
 
-# For local imports, temporarily add project root to Python sys.path
-PROJECT_ROOT = pathlib.Path(__file__).resolve().parent.parent.parent
-if str(PROJECT_ROOT) not in sys.path:
-    sys.path.append(str(PROJECT_ROOT))
+# Ensure project root is in sys.path for local imports (now 3 parents are needed)
+sys.path.append(str(pathlib.Path(__file__).resolve().parent.parent.parent))
 
-# Now we can import local modules
-from utils.logger import logger  # noqa: E402
+# Import local modules (e.g. utils/logger.py)
+from utils.logger import logger  
+
+# Optional: Use a data_scrubber module for common data cleaning tasks
+from utils.data_scrubber import DataScrubber  
+
 
 # Constants
-DATA_DIR: pathlib.Path = PROJECT_ROOT.joinpath("data")
-RAW_DATA_DIR: pathlib.Path = DATA_DIR.joinpath("raw")
-PREPARED_DATA_DIR: pathlib.Path = DATA_DIR.joinpath("prepared")
+SCRIPTS_DATA_PREP_DIR: pathlib.Path = pathlib.Path(__file__).resolve().parent  # Directory of the current script
+SCRIPTS_DIR: pathlib.Path = SCRIPTS_DATA_PREP_DIR.parent 
+PROJECT_ROOT: pathlib.Path = SCRIPTS_DIR.parent 
+DATA_DIR: pathlib.Path = PROJECT_ROOT/ "data" 
+RAW_DATA_DIR: pathlib.Path = DATA_DIR / "raw"  
+PREPARED_DATA_DIR: pathlib.Path = DATA_DIR / "prepared"  # place to store prepared data
 
-# -------------------
-# Reusable Functions
-# -------------------
+
+# Ensure the directories exist or create them
+DATA_DIR.mkdir(exist_ok=True)
+RAW_DATA_DIR.mkdir(exist_ok=True)
+PREPARED_DATA_DIR.mkdir(exist_ok=True)
+
+#####################################
+# Define Functions - Reusable blocks of code / instructions
+#####################################
 
 def read_raw_data(file_name: str) -> pd.DataFrame:
     """
@@ -238,6 +243,12 @@ def main() -> None:
     # Read raw data
     df = read_raw_data(input_file)
 
+        # Read raw data
+    df = read_raw_data(input_file)
+
+    # Record original shape
+    original_shape = df.shape
+
     # Log initial dataframe information
     logger.info(f"Initial dataframe columns: {', '.join(df.columns.tolist())}")
     logger.info(f"Initial dataframe shape: {df.shape}")
@@ -251,16 +262,27 @@ def main() -> None:
     if changed_columns:
         logger.info(f"Cleaned column names: {', '.join(changed_columns)}")
 
-    # Process data
+    # Remove duplicates
     df = remove_duplicates(df)
+
+    # Handle missing values
     df = handle_missing_values(df)
-    df = standardize_formats(df)
+
+    # TODO:Remove outliers
     df = remove_outliers(df)
+
+    # TODO: Validate data
     df = validate_data(df)
+
+    # TODO: Standardize formats
+    df = standardize_formats(df)
 
     # Save prepared data
     save_prepared_data(df, output_file)
 
+    logger.info("==================================")
+    logger.info(f"Original shape: {df.shape}")
+    logger.info(f"Cleaned shape:  {original_shape}")
     logger.info("==================================")
     logger.info("FINISHED prepare_products_data.py")
     logger.info("==================================")

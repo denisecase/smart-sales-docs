@@ -1,5 +1,5 @@
 """
-scripts/data_preparation/prepare_customers_data.py
+scripts/data_preparation/prepare_customers.py
 
 This script reads customer data from the data/raw folder, cleans the data, 
 and writes the cleaned version to the data/prepared folder.
@@ -10,65 +10,60 @@ Tasks:
 - Remove outliers
 - Ensure consistent formatting
 
------------------------------------
-How to Run:
-1. Open a terminal in the main root project folder.
-2. Activate the local project virtual environment.
-3. Choose the correct commands for your OS to run this script:
-
-Example (Windows/PowerShell) - do NOT include the > prompt:
-> .venv\Scripts\activate
-> py scripts\data_preparation\prepare_customers_data.py
-
-Example (Mac/Linux) - do NOT include the $ prompt:
-$ source .venv/bin/activate
-$ python3 scripts/data_preparation/prepare_customers_data.py
-
-NOTE: I use the ruff linter. 
-It warns if all import statements are not at the top of the file.  
-I was having trouble with the relative paths, so I  
-temporarily add the project root before I can import. 
-By adding this comment at the end of an import line noqa: E402
-ruff will ignore the warning on just that line. 
 """
 
+#####################################
+# Import Modules at the Top
+#####################################
+
+# Import from Python Standard Library
 import pathlib
 import sys
+
+# Import from external packages (requires a virtual environment)
 import pandas as pd
 
-# For local imports, temporarily add project root to Python sys.path
-PROJECT_ROOT = pathlib.Path(__file__).resolve().parent.parent.parent
-if str(PROJECT_ROOT) not in sys.path:
-    sys.path.append(str(PROJECT_ROOT))
+# Ensure project root is in sys.path for local imports (now 3 parents are needed)
+sys.path.append(str(pathlib.Path(__file__).resolve().parent.parent.parent))
 
-# Now we can import local modules
-from utils.logger import logger  # noqa: E402
+# Import local modules (e.g. utils/logger.py)
+from utils.logger import logger  
+
+# Optional: Use a data_scrubber module for common data cleaning tasks
+from utils.data_scrubber import DataScrubber  
+
 
 # Constants
-DATA_DIR: pathlib.Path = PROJECT_ROOT.joinpath("data")
-RAW_DATA_DIR: pathlib.Path = DATA_DIR.joinpath("raw")
-PREPARED_DATA_DIR: pathlib.Path = DATA_DIR.joinpath("prepared")
+SCRIPTS_DATA_PREP_DIR: pathlib.Path = pathlib.Path(__file__).resolve().parent  # Directory of the current script
+SCRIPTS_DIR: pathlib.Path = SCRIPTS_DATA_PREP_DIR.parent 
+PROJECT_ROOT: pathlib.Path = SCRIPTS_DIR.parent 
+DATA_DIR: pathlib.Path = PROJECT_ROOT/ "data" 
+RAW_DATA_DIR: pathlib.Path = DATA_DIR / "raw"  
+PREPARED_DATA_DIR: pathlib.Path = DATA_DIR / "prepared"  # place to store prepared data
 
-# -------------------
-# Reusable Functions
-# -------------------
+
+# Ensure the directories exist or create them
+DATA_DIR.mkdir(exist_ok=True)
+RAW_DATA_DIR.mkdir(exist_ok=True)
+PREPARED_DATA_DIR.mkdir(exist_ok=True)
+
+#####################################
+# Define Functions - Reusable blocks of code / instructions
+#####################################
 
 def read_raw_data(file_name: str) -> pd.DataFrame:
-    """
-    Read raw data from CSV.
+    """Read raw data from CSV."""
+    file_path: pathlib.Path = RAW_DATA_DIR.joinpath(file_name)
+    try:
+        logger.info(f"READING: {file_path}.")
+        return pd.read_csv(file_path)
+    except FileNotFoundError:
+        logger.error(f"File not found: {file_path}")
+        return pd.DataFrame()  # Return an empty DataFrame if the file is not found
+    except Exception as e:
+        logger.error(f"Error reading {file_path}: {e}")
+        return pd.DataFrame()  # Return an empty DataFrame if any other error occurs
 
-    Args:
-        file_name (str): Name of the CSV file to read.
-    
-    Returns:
-        pd.DataFrame: Loaded DataFrame.
-    """
-    logger.info(f"FUNCTION START: read_raw_data with file_name={file_name}")
-    file_path = RAW_DATA_DIR.joinpath(file_name)
-    logger.info(f"Reading data from {file_path}")
-    df = pd.read_csv(file_path)
-    logger.info(f"Loaded dataframe with {len(df)} rows and {len(df.columns)} columns")
-    return df
 
 def save_prepared_data(df: pd.DataFrame, file_name: str) -> None:
     """
@@ -83,6 +78,7 @@ def save_prepared_data(df: pd.DataFrame, file_name: str) -> None:
     df.to_csv(file_path, index=False)
     logger.info(f"Data saved to {file_path}")
 
+
 def remove_duplicates(df: pd.DataFrame) -> pd.DataFrame:
     """
     Remove duplicate rows from the DataFrame.
@@ -96,12 +92,21 @@ def remove_duplicates(df: pd.DataFrame) -> pd.DataFrame:
         pd.DataFrame: DataFrame with duplicates removed.
     """
     logger.info(f"FUNCTION START: remove_duplicates with dataframe shape={df.shape}")
-    initial_count = len(df)
-    df = df.drop_duplicates()
-    removed_count = initial_count - len(df)
-    logger.info(f"Removed {removed_count} duplicate rows")
-    logger.info(f"{len(df)} records remaining after removing duplicates.")
-    return df
+
+    # Let's delegate this to the DataScrubber class
+    # First, create an instance of the DataScrubber class 
+    # by passing in the dataframe as an argument.
+    df_scrubber = DataScrubber(df)
+
+    # Now, call the method on our instance to remove duplicates.
+    # This method will return a new dataframe with duplicates removed.
+    df_deduped = df_scrubber.remove_duplicate_records()
+    
+    logger.info(f"Original dataframe shape: {df.shape}")
+    logger.info(f"Deduped  dataframe shape: {df_deduped.shape}")
+    return df_deduped
+
+
 
 def handle_missing_values(df: pd.DataFrame) -> pd.DataFrame:
     """
@@ -155,6 +160,10 @@ def remove_outliers(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
+#####################################
+# Define Main Function - The main entry point of the script
+#####################################
+
 def main() -> None:
     """
     Main function for processing customer data.
@@ -163,16 +172,19 @@ def main() -> None:
     logger.info("STARTING prepare_customers_data.py")
     logger.info("==================================")
 
-    logger.info(f"Root project folder: {PROJECT_ROOT}")
-    logger.info(f"data / raw folder: {RAW_DATA_DIR}")
-    logger.info(f"data / prepared folder: {PREPARED_DATA_DIR}")
-    logger.info(f"scripts folder: {PROJECT_ROOT.joinpath('scripts')}")
+    logger.info(f"Root         : {PROJECT_ROOT}")
+    logger.info(f"data/raw     : {RAW_DATA_DIR}")
+    logger.info(f"data/prepared: {RAW_DATA_DIR}")
+    logger.info(f"scripts      : {PROJECT_ROOT.joinpath('scripts')}")
 
     input_file = "customers_data.csv"
     output_file = "customers_data_prepared.csv"
     
     # Read raw data
     df = read_raw_data(input_file)
+
+    # Record original shape
+    original_shape = df.shape
 
     # Log initial dataframe information
     logger.info(f"Initial dataframe columns: {', '.join(df.columns.tolist())}")
@@ -200,12 +212,17 @@ def main() -> None:
     save_prepared_data(df, output_file)
 
     logger.info("==================================")
+    logger.info(f"Original shape: {df.shape}")
+    logger.info(f"Cleaned shape:  {original_shape}")
+    logger.info("==================================")
     logger.info("FINISHED prepare_customers_data.py")
     logger.info("==================================")
 
-# -------------------
-# Conditional Execution Block
-# -------------------
+#####################################
+# Conditional Execution Block 
+# Ensures the script runs only when executed directly
+# This is a common Python convention.
+#####################################
 
 if __name__ == "__main__":
     main()
