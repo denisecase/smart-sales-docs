@@ -39,7 +39,7 @@ This organizational pattern supports:
 
 ## SQLite Example
 
-Open the project repository folder in VS Code. Create a file in scripts/ folder named create_dw.py. 
+Open the project repository folder in VS Code. Create a file in scripts/ folder named create_dw_sqlite.py. 
 
 ```python
 import sqlite3
