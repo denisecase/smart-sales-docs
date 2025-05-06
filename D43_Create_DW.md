@@ -1,15 +1,45 @@
 # Create an Initial Data Warehouse Creation Script
 
-Goal: Use SQLite to define and create tables for your data warehouse. The script will set up the database schema based on your design.
+Goal: Define and create tables for a data warehouse using a lightweight SQL engine.  
+
+This step sets up the structure (schema) of the warehouse and lays the foundation for later data loading and analysis.
+
+Common options for local or embedded SQL-based data warehouses include:
+
+| Engine    | Description                                                                 |
+|-----------|-----------------------------------------------------------------------------|
+| **SQLite** | Lightweight, file-based RDBMS with minimal setup. Part of Python standard library. |
+| **DuckDB** | In-process analytics database optimized for queries over Parquet/CSV.       |
+| **dbt**    | SQL-based transformation framework; ideal for managing models in cloud or DuckDB. |
+| **SQLMesh** | Modern alternative to dbt with similar goals but different workflows.      |
 
 In this step, we'll sketch out a new script but leave the details until later. 
 This is a common way to develop code. First, get the basics running, and then complete the details. 
 
-## Open Project in VS Code, Create a New Script
+## Planning Data Warehouse Creation Script
 
-Open your project in VS Code. Create a file in your scripts folder named create_dw.py. 
+A data warehouse creation script defines the structure (schema) of the database. 
+Regardless of the engine used (e.g., SQLite, DuckDB, or tools like dbt or SQLMesh), the script will typically:
 
-Start with some initial code. Maybe something like the following. 
+1. Import required modules, e.g., sqlite3, duckdb, or libraries that wrap around SQL models.
+1. Define constants, e.g., paths for the database file, directories, or configuration files.
+1. Ensure target directories exist, e.g., a data/dw/ folder for storing the local database.
+1. Connect to the database engine, either in-process (SQLite, DuckDB) or through a framework (e.g., dbt via command line or SQLMesh via API).
+1. Execute SQL statements to create fact and dimension tables based on your schema design.
+1. Include logging to track execution and catch errors.
+1. Structure functions and main entry points to keep the script reusable, testable, and organized.
+
+This organizational pattern supports:
+
+- Clear separation of responsibilities (e.g., schema creation vs. data loading)
+- Easy testing with lightweight engines like SQLite or DuckDB
+- Compatibility with more advanced tools like dbt or SQLMesh by swapping out the execution method
+
+
+
+## SQLite Example
+
+Open the project repository folder in VS Code. Create a file in scripts/ folder named create_dw.py. 
 
 ```python
 import sqlite3
@@ -62,49 +92,3 @@ if __name__ == "__main__":
     main()
 
 ```
-
-In the Python script, use the sqlite3 library in the Python Standard Library to connect to SQLite and execute SQL commands to create tables.
-
-- Define the schema for your fact and dimension tables.
-- Ensure that your fact table includes foreign keys that reference the primary keys of your dimension tables.
-- Follow conventions for naming tables and columns.
-
-## Activate .venv and Excecute the Script
-
-In VS Code, open a terminal. 
-Activate the local project virtual environment if not already active. 
-Use the variation of this command that works on your machine. 
-
-In Windows / PowerShell (for example)
-
-```shell
-.\.venv\Scripts\activate
-```
-
-In Mac / Linux terminal (for example)
-
-```shell
-source .venv/bin/activate
-```
-
-## Execute the Script
-
-Execute the script to create the database and tables - use the command that works for your operating system. 
-
-In Windows / PowerShell
-
-```shell
-py scripts/create_dw.py
-```
-
-In Mac / Linux terminal
-
-```shell
-python3 scripts/create_dw.py
-```
-
-## Verify And Plan Ahead
-
-Make sure this version runs correctly. 
-In the next session, we'll write code to create the tables. 
-We will NOT populate them. We'll do that separately using our prepared data in Module 5. 
