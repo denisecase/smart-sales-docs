@@ -3,6 +3,8 @@
 After preparing data for the ETL (Extract, Transform, Load) process, the next step in the BI (Business Intelligence) lifecycle involves creating a place to store this data in a structured repository.
 This module explores why these storage solutions are critical and how they are structured to support BI initiatives.
 
+---
+
 ## Data Warehouse vs. Data Lake vs. Lakehouse
 
 ### Data Warehouse
@@ -33,6 +35,7 @@ Examples include:
 - **Databricks Delta Lake**: Offers ACID transactions and scalable metadata handling over a data lake.
 - **Snowflake**: Although primarily a data warehouse, it incorporates many features of data lakes, promoting a lakehouse approach.
 
+---
 
 ## Understanding Dimensions and Facts
 
@@ -58,19 +61,52 @@ The design of a Data Warehouse directly influences its effectiveness in supporti
 - A well-structured warehouse or lakehouse helps maintain data integrity and consistency.
 - As business needs evolve, a well-designed warehouse can adapt to changes in data requirements.
 
-## SQLite for Data Warehouse Simulation
+---
 
-SQLite is a relational database management system contained in a small C library. 
-Unlike traditional data warehouses that require complex setups, SQLite databases are stored in a single  file, simplifying data management and making it accessible without the need for running and configuring a separate database server.
+## Creating a Data Warehouse
 
-We will use SQLite to simulate the design and implementation of a data warehouse and then use ETL to load our data into the system. 
+A data warehouse can be created using a variety of tools depending on scale, complexity, and performance requirements. 
+Lightweight, local solutions such as **SQLite** and **DuckDB** are often used for prototyping, development, or instructional purposes. 
+These tools support SQL and allow for realistic simulation of data warehouse architectures such as star schemas.
 
-### Dates in SQLite
+### SQLite
 
-In most databases, dates are stored in dedicated date or datetime data types,
-allowing for optimized date handling and calculations. However, SQLite stores dates as text,
-typically in a string format, which limits some of its date manipulation capabilities.
+**SQLite** is a lightweight relational database management system contained in a single C library.  
+It stores the entire database in a single file, simplifying setup and management.  
+SQLite supports standard SQL syntax and integrates easily with many analytics environments. 
+Its simplicity and portability make it useful for modeling warehouse structures in smaller-scale settings or educational contexts.
 
-A good approach to handling dates in SQLite for data warehousing is to store dates in ISO 8601 format (YYYY-MM-DD). 
-This format allows SQLite to recognize and compare dates accurately as strings 
-and is compatible with SQLite's date and time functions for filtering, sorting, and grouping.
+### DuckDB: Lightweight Analytics Engine
+
+**DuckDB** is a modern, open-source, in-process SQL OLAP engine designed for analytical workloads.  
+It can run SQL queries directly on local structured files such as CSV and **Parquet**. 
+Parquet is a columnar storage format that enables efficient compression and fast querying.  
+Parquet files are not human-readable and are typically used for production-ready datasets, while CSV or JSON formats are preferred during initial development.
+
+DuckDB provides many of the benefits of larger cloud-based warehouses without requiring a server or setup, making it a powerful option for local analytics.
+
+Key advantages:
+- In-memory execution for fast query performance
+- Efficient handling of Parquet files and other columnar formats
+- Support for complex analytical queries on structured data
+
+### dbt (Data Build Tool): SQL-Based Modeling and Documentation
+
+**dbt** is a command-line tool and framework that enables analysts and engineers to manage data transformations using modular, testable SQL.  
+It emphasizes version control, data lineage, and documentation, aligning with modern practices in analytics engineering.
+
+Core capabilities include:
+- Defining reusable SQL models
+- Managing transformation dependencies via YAML configuration
+- Generating browsable documentation and lineage graphs
+
+dbt is widely used alongside tools like Snowflake, Redshift, BigQuery, and DuckDB to maintain clean, traceable, and testable analytics workflows.
+
+### Dates in SQLite and DuckDB
+
+Handling dates is an important aspect of warehouse design and query logic.
+
+- **SQLite** stores dates as strings (typically in ISO 8601 format) and supports date functions like `strftime()` and `DATE()`.
+- **DuckDB** supports native `DATE` and `TIMESTAMP` types and can parse ISO-formatted strings directly when reading from CSV or Parquet files.
+
+Using the ISO 8601 format (`YYYY-MM-DD`) ensures compatibility, consistency, and correct sorting across tools and systems.
