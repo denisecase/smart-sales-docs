@@ -33,10 +33,21 @@ Design Considerations
 
 ## Follow Table / Column Naming Conventions
 
-In general, we will follow the convention that table names are lowercase and pluralized. 
-Column names are all lowercase with underscores. 
+In general, follow these naming conventions:
 
-### Fact Table: sales
+- Table names: all lowercase and pluralized (e.g., customers, sales, products) NOTE: Some organizations prefer singular table names - pick one and be consistent.
+- Column names: all lowercase with underscores separating words (e.g., customer_id, sale_date)
+
+## Example Star Schema Design
+
+The star schema tends to have one central, numeric fact table, with as many additional dimension tables supporting those facts as needed. 
+In our example, we would make our sales table the central fact table, and provide dimension tables for customers and products (you might choose to add more). 
+Dimension Tables contain descriptive attributes related to the fact table. They provide context to the measures in the fact table.
+
+### One Central Fact Table: `sales`
+
+The fact table contains quantitative data representing business events.
+It includes foreign keys to dimension tables and measures for analysis.
 
 The following are examples of possible columns.
 TODO: Update your design to reflect your data and tool choices. 
@@ -47,15 +58,12 @@ TODO: Update your design to reflect your data and tool choices.
 | date            | DATE[1]   | Date of the transaction         |
 | customer_id     | TEXT      | Foreign key to customers        |
 | product_id      | TEXT      | Foreign key to products         |
-| store_id        | TEXT      | Foreign key to stores           |
-| campaign_id     | TEXT      | Foreign key to campaign         |
-| Quantity        | INTEGER   | Number of items                 |
+| quantity        | INTEGER   | Quantity of items sold          |
 | sales_amount    | REAL      | Total sales amount              |
 
 ### Dimension Table: customers
 
-The following are examples of possible columns.
-TODO: Update your design to reflect your data and tool choices. 
+### Dimension Table: `customers`
 
 | column_name | data_type | description                       |
 |-------------|-----------|-----------------------------------|
@@ -64,10 +72,7 @@ TODO: Update your design to reflect your data and tool choices.
 | region      | TEXT      | Region where customer resides     |
 | join_date   | DATE      | Date when the customer joined     |
 
-### Dimension Table: products
-
-The following are examples of possible columns.
-TODO: Update your design to reflect your data and tool choices. 
+### Dimension Table: `products`
 
 | column_name  | data_type | description                      |
 |--------------|-----------|----------------------------------|
@@ -76,4 +81,4 @@ TODO: Update your design to reflect your data and tool choices.
 | category     | TEXT      | Category of the product          |
 | unit_price   | REAL      | Price per unit of the product    |
 
-A well-designed data warehouse is instrumental in enabling efficient data analysis and business intelligence reporting. 
+A well-designed data warehouse schema is essential for efficient querying, accurate analysis, and reliable business intelligence reporting.
