@@ -21,7 +21,7 @@ As data projects grow, it becomes easier to:
 
 We move the old `data_prep.py` in an `archive/` folder so you can compare and reuse as needed.
 
-## Continuing Project Work
+## Module 3: Continuing Project Work
 
 We don't need to create our .venv as we should already have it. 
 If not, go back to Module 1 and 2 make sure those steps are completed. 
@@ -32,7 +32,7 @@ Now, we just follow our regular workflow. If we find we need additional external
 3. Run `scripts/data_prep.py`.
 
 
-## Mac/Linux Commands
+## Module 3: Mac/Linux Commands
 
 Open your smart sales repository in VS Code. 
 Open a terminal in the root project folder. 
@@ -45,7 +45,7 @@ python3 scripts/data_prep/prepare_products.py
 python3 scripts/data_prep/prepare_sales.py
 ```
 
-## Windows PowerShell Commands
+## Module 3: Windows PowerShell Commands
 
 Open your smart sales repository in VS Code. 
 Open a PowerShell terminal in the root project folder. 

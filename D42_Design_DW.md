@@ -2,30 +2,28 @@
 
 Designing a Data Warehouse involves careful planning and understanding of both the data and the business requirements. Here are the key components and considerations involved:
 
-### Schema Design
+## Schema Design
 
 In Data Warehousing, schema refers to how the database is structured, and there are two popular designs:
 
 - **Star Schema**: The simplest style of data mart schema that consists of one or more fact tables referencing any number of dimension tables, which help minimize the complexity of database design and queries.
 - **Snowflake Schema**: A more complex schema where the dimension tables are normalized, which eliminates redundancy but may require more complex queries.
 
-### Using SQLite for Schema Design
 
-Given SQLite's lightweight and flexible nature, it is an excellent tool to implement and test schema designs. 
-
-#### Example: Star Schema Design in SQLite
+## Example: Star Schema
 
 
 **Fact Table: Sales**
 
-This table contains quantitative data for analysis, including metrics related to transactions such as `Quantity` and `SalesAmount`. It connects to dimension tables through foreign keys.
+This table contains quantitative data for analysis, including metrics related to transactions such as `SalesAmount`. 
+It connects to dimension tables through foreign keys.
 
 **Dimension Tables: Customers, Products**
 
 Dimension Tables contain descriptive attributes related to the fact table. They provide context to the measures in the fact table.
   
-- Customers Table: Contains information about customers, such as their `Name`, `Region`, and `JoinDate`.
-- Products Table: Contains details about products, including `ProductName`, `Category`, and `UnitPrice`.
+- Customers Table: Contains information about customers.
+- Products Table: Contains details about products.
 
 Design Considerations
 
@@ -40,16 +38,24 @@ Column names are all lowercase with underscores.
 
 ### Fact Table: sales
 
+The following are examples of possible columns.
+TODO: Update your design to reflect your data and tool choices. 
+
 | column_name     | data_type | description                     |
 |-----------------|-----------|---------------------------------|
 | sale_id         | INTEGER   | Primary key                     |
 | date            | DATE      | Date of the transaction         |
 | customer_id     | TEXT      | Foreign key to customers        |
 | product_id      | TEXT      | Foreign key to products         |
-| quantity        | INTEGER   | Quantity of items sold          |
+| store_id        | TEXT      | Foreign key to stores           |
+| campaign_id     | TEXT      | Foreign key to campaign         |
+| Quantity        | INTEGER   | Number of items                 |
 | sales_amount    | REAL      | Total sales amount              |
 
 ### Dimension Table: customers
+
+The following are examples of possible columns.
+TODO: Update your design to reflect your data and tool choices. 
 
 | column_name | data_type | description                       |
 |-------------|-----------|-----------------------------------|
@@ -60,6 +66,9 @@ Column names are all lowercase with underscores.
 
 ### Dimension Table: products
 
+The following are examples of possible columns.
+TODO: Update your design to reflect your data and tool choices. 
+
 | column_name  | data_type | description                      |
 |--------------|-----------|----------------------------------|
 | product_id   | TEXT      | Primary key                      |
@@ -68,6 +77,3 @@ Column names are all lowercase with underscores.
 | unit_price   | REAL      | Price per unit of the product    |
 
 A well-designed data warehouse is instrumental in enabling efficient data analysis and business intelligence reporting. 
-We can use SQLite to simulate a data warehouse and gain practical experience in schema design and data management.
-
-Next, we'll implement the data warehouse. 

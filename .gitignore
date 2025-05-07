@@ -29,3 +29,20 @@ __pycache__/
 # Jupyter Notebook (basic ignore)
 # ----------------------------------------
 .ipynb_checkpoints
+
+
+# ----------------------------------------
+# dbt
+# ----------------------------------------
+dbt/.user.yml
+dbt_modules/
+dbt/target/
+
+# ----------------------------------------
+# SQLMesh
+# ----------------------------------------
+sqlmesh/__pycache__/
+sqlmesh/.cache
+sqlmesh/.migrations/
+sqlmesh/target/
+sqlmesh/__sqlmesh_cache__/

@@ -1,0 +1,24 @@
+# dbt_project.yml - Main configuration file for your dbt project
+
+# Name of your project (should match the folder name ideally)
+name: smart_sales
+
+# Version of your project (for tracking purposes)
+version: '1.0'
+
+# Version of dbt’s config format being used (leave as 2 for now)
+config-version: 2
+
+# Folder where your model SQL files live (relative to this dbt folder)
+model-paths: ["models"]
+
+# The profile name (must match a profile defined in profiles.yml)
+# This tells dbt how and where to connect to your database
+profile: smart_sales_dbt
+
+# Default settings for all models in this project
+models:
+  smart_sales:
+    # Materialization type: options include table, view, or incremental
+    # 'table' means dbt will fully create and replace physical tables
+    +materialized: table

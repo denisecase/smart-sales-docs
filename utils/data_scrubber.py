@@ -15,7 +15,7 @@ This class provides methods for:
 
 Use this class to perform similar cleaning operations across multiple files.  
 You are not required to use this class, but it shows how we can organize 
-reusable data cleaning logic.
+reusable data cleaning logic - or you can use the logic examples in your own code.
 
 Example:
     from utils.data_scrubber import DataScrubber

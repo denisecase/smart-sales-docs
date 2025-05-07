@@ -233,12 +233,13 @@ def main() -> None:
     logger.info("STARTING prepare_products_data.py")
     logger.info("==================================")
 
-    logger.info(f"Root project folder: {PROJECT_ROOT}")
-    logger.info(f"data / raw folder: {RAW_DATA_DIR}")
-    logger.info(f"data / prepared folder: {PREPARED_DATA_DIR}")
+    logger.info(f"Root         : {PROJECT_ROOT}")
+    logger.info(f"data/raw     : {RAW_DATA_DIR}")
+    logger.info(f"data/prepared: {PREPARED_DATA_DIR}")
+    logger.info(f"scripts      : {SCRIPTS_DIR}")
 
     input_file = "products_data.csv"
-    output_file = "products_data_prepared.csv"
+    output_file = "products_prepared.csv"
     
     # Read raw data
     df = read_raw_data(input_file)

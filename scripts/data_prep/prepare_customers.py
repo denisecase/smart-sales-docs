@@ -174,11 +174,11 @@ def main() -> None:
 
     logger.info(f"Root         : {PROJECT_ROOT}")
     logger.info(f"data/raw     : {RAW_DATA_DIR}")
-    logger.info(f"data/prepared: {RAW_DATA_DIR}")
-    logger.info(f"scripts      : {PROJECT_ROOT.joinpath('scripts')}")
+    logger.info(f"data/prepared: {PREPARED_DATA_DIR}")
+    logger.info(f"scripts      : {SCRIPTS_DIR}")
 
     input_file = "customers_data.csv"
-    output_file = "customers_data_prepared.csv"
+    output_file = "customers_prepared.csv"
     
     # Read raw data
     df = read_raw_data(input_file)

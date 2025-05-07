@@ -1,0 +1,18 @@
+# profiles.yml - dbt connection settings for Smart Sales project
+# This file should be in the same folder as dbt_project.yml
+# Tell dbt to use this location with --profiles-dir dbt
+
+smart_sales_dbt:
+  # Use the 'dev' configuration below
+  target: dev
+
+  outputs:
+    dev:
+      # Use DuckDB as the database engine
+      type: duckdb
+
+      # The database file to create (relative to project root)
+      path: ./dw/smart_sales_dbt.duckdb
+
+      # Number of threads to use when building models
+      threads: 4
