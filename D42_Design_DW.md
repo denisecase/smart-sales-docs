@@ -32,18 +32,26 @@ Dimension Tables contain descriptive attributes related to the fact table. They 
 The fact table contains quantitative data representing business events.
 It includes foreign keys to dimension tables and measures for analysis.
 
+The following are examples of possible columns.
+TODO: Update your design to reflect your data and tool choices. 
+
 | column_name     | data_type | description                     |
 |-----------------|-----------|---------------------------------|
 | sale_id         | INTEGER   | Primary key                     |
 | date            | DATE[1]   | Date of the transaction         |
 | customer_id     | TEXT      | Foreign key to customers        |
 | product_id      | TEXT      | Foreign key to products         |
+| store_id        | TEXT      | Foreign key to stores           |
+| campaign_id     | TEXT      | Foreign key to campaigns        |
 | quantity        | INTEGER   | Quantity of items sold          |
 | sales_amount    | REAL      | Total sales amount              |
 
 [1] When using SQLite, there is not a DATE type, so we use a text field with the date in ISO 8601 strings ("YYYY-MM-DD").
 
 ### Dimension Table: `customers`
+
+The following are examples of possible columns.
+TODO: Update your design to reflect your data and tool choices. 
 
 | column_name | data_type | description                       |
 |-------------|-----------|-----------------------------------|
@@ -54,6 +62,9 @@ It includes foreign keys to dimension tables and measures for analysis.
 
 ### Dimension Table: `products`
 
+The following are examples of possible columns.
+TODO: Update your design to reflect your data and tool choices. 
+
 | column_name  | data_type | description                      |
 |--------------|-----------|----------------------------------|
 | product_id   | TEXT      | Primary key                      |
@@ -62,3 +73,4 @@ It includes foreign keys to dimension tables and measures for analysis.
 | unit_price   | REAL      | Price per unit of the product    |
 
 A well-designed data warehouse schema is essential for efficient querying, accurate analysis, and reliable business intelligence reporting.
+
