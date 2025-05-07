@@ -1,8 +1,8 @@
-# Choose Your DW Tools
-
-## Choose Your Data Warehousing Option
+# DW Tools: Choose Your Adventure
 
 Decide how you want to create your data warehouse - which tools and techniques do you want to learn?
+
+## Choose Your Data Warehousing Tools
 
 - A: If new, **SQLite** is the most accessible and reliable starting point.
 - B: **DuckDB** is also lightweight and built specifically for OLAP-style analytics.
@@ -107,7 +107,7 @@ py scripts/dw_create/verify_dw_sqlmesh.py
 
 ## After Making Progress
 
-Once you’ve verified the scripts ran successfully, 
+Keep your work current. As you make progress, remember to 
 git add, commit, and push changes to your GitHub repository.
 
 ```shell
@@ -116,4 +116,4 @@ git commit -m "custom message"
 git push -u origin main
 ```
 
-For best results, git add-commit-push frequently after making any useful progress. 
+For the most enjoyable experience, git add-commit-push frequently after making any useful progress. 

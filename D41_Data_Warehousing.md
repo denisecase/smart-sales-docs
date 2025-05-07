@@ -1,7 +1,6 @@
 # D4.1 Data Warehousing
 
 After preparing data for the ETL (Extract, Transform, Load) process, the next step in the BI (Business Intelligence) lifecycle involves creating a place to store this data in a structured repository.
-This module explores why these storage solutions are critical and how they are structured to support BI initiatives.
 
 ---
 
@@ -63,50 +62,53 @@ The design of a Data Warehouse directly influences its effectiveness in supporti
 
 ---
 
-## Implementing a Data Warehouse (Choose SQLite or DuckDB)
+## Data Warehouse Storage (SQLite or DuckDB)
 
-A data warehouse can be created using a variety of tools depending on scale, complexity, and performance requirements. 
-Lightweight, local solutions such as **SQLite** and **DuckDB** are often used for prototyping, development, or instructional purposes. 
-These tools support SQL and allow for realistic simulation of data warehouse architectures such as star schemas.
+A data warehouse can be created using a variety of tools depending on scale, complexity, and performance requirements.  
+There are two lightweight, local storage solutions to choose between:
 
-### SQLite
+- **SQLite**: A simple, file-based relational database that is lightweight and easy to configure. Includes built-in Python support in the Standard Library. 
+- **DuckDB**: An in-process SQL OLAP database designed for fast analytics directly on local files. Requires the external package `duckdb`. 
 
-**SQLite** is a lightweight relational database management system contained in a single C library.  
-It stores the entire database in a single file, simplifying setup and management.  
-SQLite supports standard SQL syntax and integrates easily with many analytics environments. 
-Its simplicity and portability make it useful for modeling warehouse structures in smaller-scale settings or educational contexts.
+Either option enables demonstrating the principles of Data Warehousing without the complexity or expense of cloud-based deployments.  
 
-### DuckDB: Lightweight Analytics Engine
+---
 
-**DuckDB** is a modern, open-source, in-process SQL OLAP engine designed for analytical workloads.  
-It can run SQL queries directly on local structured files such as CSV and **Parquet**. 
-Parquet is a columnar storage format that enables efficient compression and fast querying.  
-Parquet files are not human-readable and are typically used for production-ready datasets, while CSV or JSON formats are preferred during initial development.
+## Data Warehouse Implementation: SQLite DW
 
-DuckDB provides many of the benefits of larger cloud-based warehouses without requiring a server or setup, making it a powerful option for local analytics.
+When you choose to implement your Data Warehouse with **SQLite**, you will:
+- Use SQL to define your schema and load data.
+- Store your entire database in a single `.sqlite` or `.db` file.
+- Query the database directly using SQL in Python or command line.
 
-Key advantages:
-- In-memory execution for fast query performance
-- Efficient handling of Parquet files and other columnar formats
-- Support for complex analytical queries on structured data
+SQLite is great for:
+- Simplicity and portability.
+- Quick setups with minimal dependencies.
+- Local development and prototyping.
 
-### dbt (Data Build Tool): SQL-Based Modeling and Documentation
+When implementing a **DuckDB** data warehouse, we can use native Python (with the duckdb external package), or we can use two powerful tools for transformation and modeling: dbt or SQLMesh. 
 
-**dbt** is a command-line tool and framework that enables analysts and engineers to manage data transformations using modular, testable SQL.  
-It emphasizes version control, data lineage, and documentation, aligning with modern practices in analytics engineering.
+## Data Warehouse Implementation: DuckDB DW
 
-Core capabilities include:
-- Defining reusable SQL models
-- Managing transformation dependencies via YAML configuration
-- Generating browsable documentation and lineage graphs
+If you choose **DuckDB**, you have three different ways to build your Data Warehouse: 
 
-dbt is widely used alongside tools like Snowflake, Redshift, BigQuery, and DuckDB to maintain clean, traceable, and testable analytics workflows.
+1. **Native Python with DuckDB**  
+   You can use the `duckdb` Python package to:
+   - Create tables directly from CSV or Parquet files.
+   - Perform SQL queries in-memory for high-speed analytics.
+   - Load and manipulate large datasets without additional database services.
 
-### Dates in SQLite and DuckDB
+2. **dbt (Data Build Tool) with DuckDB**  
+   If you want modular, testable SQL models with version control and documentation:
+   - Use `dbt` to build a structured, reproducible Data Warehouse.
+   - Manage your transformations through SQL models defined in `.sql` files.
+   - Leverage YAML configurations for dependencies and documentation.
 
-Handling dates is an important aspect of warehouse design and query logic.
+3. **SQLMesh with DuckDB**  
+   For declarative modeling and dependency-based transformations:
+   - Use `SQLMesh` to define models and dependencies.
+   - Automatically manage migrations and run tests.
+   - Track changes over time and execute reproducible builds.
 
-- **SQLite** stores dates as strings (typically in ISO 8601 format) and supports date functions like `strftime()` and `DATE()`.
-- **DuckDB** supports native `DATE` and `TIMESTAMP` types and can parse ISO-formatted strings directly when reading from CSV or Parquet files.
+---
 
-Using the ISO 8601 format (`YYYY-MM-DD`) ensures compatibility, consistency, and correct sorting across tools and systems.
