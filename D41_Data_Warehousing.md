@@ -63,7 +63,7 @@ The design of a Data Warehouse directly influences its effectiveness in supporti
 
 ---
 
-## Creating a Data Warehouse
+## Implementing a Data Warehouse (Choose SQLite or DuckDB)
 
 A data warehouse can be created using a variety of tools depending on scale, complexity, and performance requirements. 
 Lightweight, local solutions such as **SQLite** and **DuckDB** are often used for prototyping, development, or instructional purposes. 
