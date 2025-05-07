@@ -3,6 +3,7 @@
 Designing a Data Warehouse involves careful planning and understanding of both the data and the business requirements. Here are the key components and considerations involved:
 
 ## Schema Design
+## Schema Design
 
 In Data Warehousing, schema refers to how the database is structured, and there are two popular designs:
 
@@ -30,8 +31,7 @@ Design Considerations
 - Normalization vs. Denormalization: While normalized tables reduce redundancy, denormalization can improve query performance. In a data warehouse, it's common to use a denormalized approach to optimize for read operations.
 - Primary and Foreign Keys: Ensure primary keys uniquely identify each record in the dimension tables. Foreign keys in the fact table reference these primary keys, establishing relationships between tables.
 
-
-## Data Warehouse Schema
+## Follow Table / Column Naming Conventions
 
 In general, we will follow the convention that table names are lowercase and pluralized. 
 Column names are all lowercase with underscores. 
@@ -44,7 +44,7 @@ TODO: Update your design to reflect your data and tool choices.
 | column_name     | data_type | description                     |
 |-----------------|-----------|---------------------------------|
 | sale_id         | INTEGER   | Primary key                     |
-| date            | DATE      | Date of the transaction         |
+| date            | DATE[1]   | Date of the transaction         |
 | customer_id     | TEXT      | Foreign key to customers        |
 | product_id      | TEXT      | Foreign key to products         |
 | store_id        | TEXT      | Foreign key to stores           |
